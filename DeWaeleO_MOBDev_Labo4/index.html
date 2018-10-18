@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<body>
+    <div class="likedropzone"></div>
+    <div class="dislikedropzone"></div>
+    <div class="container">
+        <div id="container__geo">
+
+        </div>
+        <div id="container__tinderBox">
+       
+        </div> 
+        <div id="container__buttons">
+            <div class="container__buttons--like"><img src="images/likeWhite.png"></div>
+            <div class="container__buttons--dislike"><img src="images/dislikeWhite.png"></div>
+            
+       </div> 
+       <div id="listContainer">
+            <div id="container__lists">
+                    <button class="container__lists--showLikes">Show likelijst</button>
+            </div>
+            <div class="container__LD">
+                    <h1>Likes</h1>
+                    <div class="container__LD--likeList"></div>
+                    <h1>Dislikes</h1>
+                    <div class="container__LD--dislikeList"></div>
+            </div>
+     </div>
+     <div id='map'></div>
+    </div>
+    
+
+
+<script src="js/main.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+
+
+</body>
+</html>

@@ -78,7 +78,6 @@ fetch('https://randomuser.me/api/?results=10')// max 10 resultaten bij de fetch
 			if(localStorage.getItem("persons") == null){
 				fetch('https://randomuser.me/api/?results=10')// max 10 resultaten bij de fetch
 			}else{
-				console.log(localStorage.getItem("persons"));
 			}
 		};
 		function like(){
@@ -164,110 +163,116 @@ fetch('https://randomuser.me/api/?results=10')// max 10 resultaten bij de fetch
 					}
 				}
 			}
-			
-	///////D&D////////
+		/////touch////
 
-			document.addEventListener('dragstart', dragStart);
-			document.addEventListener('dragend', dragEnd);
-			document.addEventListener('drop', dragDrop);
-			document.addEventListener('dragover', dragOver);
-
-		
-
-			function dragStart(e){
-				console.log('start');
-				e.target.style.opacity = .3;
-				e.dataTransfer.setData("clickedButton", e.target.id);
-				e.dataTransfer.dropEffect = "move";
+		let swipeBox = document.querySelector('.container');
+		let swipeEvent = new Hammer(swipeBox);
+		swipeEvent.on("swipe", function(){
+			startX = event.clientX;
+			startY = event.clientY;
+			console.log(startX+' '+startY);
+			if(startX <= 500){
+				like();
 			}
-			function dragEnd(e){
-				e.preventDefault();
-				console.log('end');
-				e.target.style.opacity = 1.0;
-			}
-			
-			function dragDrop(e) {
-				console.log('hallo');
-				e.preventDefault();
-				// only drop on dropzones
-				if (e.toElement.className === "likedropzone") {
-				  like();
-				}else{
+			if(startX>= 1000){
 				dislike();
-				}
-			  }
-			  function dragOver(e) {
-				e.preventDefault();
-			  }
-	/////////// Geolocation ////////////
-	function degreesToRadians(degrees) {
-		return degrees * Math.PI / 180;
-	  }
+			}
+		})
 
-	function showPosition(position) {
-		let Lat = position.coords.latitude;
-		let Long = position.coords.longitude;
-		let Long2 = person_array[0].longitude;
-		let Lat2 = person_array[0].latitude;
-		let R = 6371e3; // metres
-		let φ1 = degreesToRadians(Lat);
-		let φ2 = degreesToRadians(Lat2);
-		let Δφ = degreesToRadians(Lat2-Lat);
-		let Δλ = degreesToRadians(Long2-Long);
-		let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-				Math.cos(φ1) * Math.cos(φ2) *
-				Math.sin(Δλ/2) * Math.sin(Δλ/2);
-		let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		let d = document.getElementById("container__geo");
-		let result = Math.round(R * c/1000);
-		d.innerHTML = 'Uw match bevind zich op ' + result + ' Kilometer afstand';
-	}
-	function getLocation() {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(showPosition);
-		}else{
-			alert('Geolocation not supported');
+		///////D&D////////
+		document.addEventListener('dragstart', dragStart);
+		document.addEventListener('dragend', dragEnd);
+		document.addEventListener('drop', dragDrop);
+		document.addEventListener('dragover', dragOver);
+		function dragStart(e){
+			e.target.style.opacity = .3;
+			e.dataTransfer.setData("clickedButton", e.target.id);
+			e.dataTransfer.dropEffect = "move";
 		}
-	}
-	function map(){
-		mapboxgl.accessToken = 'pk.eyJ1Ijoib3dlbmRld2FlbGUiLCJhIjoiY2puOHAzZnRzNmo5MzN2bnhqNW53aDBicyJ9.7M-e8KcSjdnouRI2WH30JA';
-		var map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/mapbox/streets-v9',
-			center: [person_array[0].longitude, person_array[0].latitude],
-			zoom:14
-		});
-		
-		map.on('load', function(){
-			let radius=50; //radius of the circle
-			map.addSource("geomarker", { //making a source for the radius
-				"type": "geojson",
-				"data": {
-				"type": "FeatureCollection",
-				"features": [{
-					"type": "Feature",
-					"geometry": {
-					"type": "Point",
-					"coordinates": [person_array[0].longitude, person_array[0].latitude] 
+		function dragEnd(e){
+			e.preventDefault();
+			e.target.style.opacity = 1.0;
+		}
+		function dragDrop(e) {
+			e.preventDefault();
+			// only drop on dropzones
+			if (e.toElement.className === "likedropzone") {
+				like();
+			}else{
+			dislike();
+			}
+		}
+		function dragOver(e) {
+			e.preventDefault();
+		}
+		/////////// Geolocation ////////////
+		function degreesToRadians(degrees) {
+			return degrees * Math.PI / 180;
+		}
+
+		function showPosition(position) {
+			let Lat = position.coords.latitude;
+			let Long = position.coords.longitude;
+			let Long2 = person_array[0].longitude;
+			let Lat2 = person_array[0].latitude;
+			let R = 6371e3; // metres
+			let φ1 = degreesToRadians(Lat);
+			let φ2 = degreesToRadians(Lat2);
+			let Δφ = degreesToRadians(Lat2-Lat);
+			let Δλ = degreesToRadians(Long2-Long);
+			let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+					Math.cos(φ1) * Math.cos(φ2) *
+					Math.sin(Δλ/2) * Math.sin(Δλ/2);
+			let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			let d = document.getElementById("container__geo");
+			let result = Math.round(R * c/1000);
+			d.innerHTML = 'Uw match bevind zich op ' + result + ' Kilometer afstand';
+		}
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			}else{
+				alert('Geolocation not supported');
+			}
+		}
+		function map(){
+			mapboxgl.accessToken = 'pk.eyJ1Ijoib3dlbmRld2FlbGUiLCJhIjoiY2puOHAzZnRzNmo5MzN2bnhqNW53aDBicyJ9.7M-e8KcSjdnouRI2WH30JA';
+			var map = new mapboxgl.Map({
+				container: 'map',
+				style: 'mapbox://styles/mapbox/streets-v9',
+				center: [person_array[0].longitude, person_array[0].latitude],
+				zoom:14
+			});
+			
+			map.on('load', function(){
+				let radius=50; //radius of the circle
+				map.addSource("geomarker", { //making a source for the radius
+					"type": "geojson",
+					"data": {
+					"type": "FeatureCollection",
+					"features": [{
+						"type": "Feature",
+						"geometry": {
+						"type": "Point",
+						"coordinates": [person_array[0].longitude, person_array[0].latitude] 
+						}
+					}]
 					}
-				}]
-				}
+				});
+				map.addLayer({ //displaying the radius of the circle
+					"id": "geomarker",
+					"type": "circle",
+					"source": "geomarker",
+					"paint": {
+					"circle-radius": radius, //radius with the variable radius
+					"circle-color": "#FF0000", //color
+					"circle-opacity": 0.5, //opacity
+					}
+				});
 			});
-			map.addLayer({ //displaying the radius of the circle
-				"id": "geomarker",
-				"type": "circle",
-				"source": "geomarker",
-				"paint": {
-				"circle-radius": radius, //radius with the variable radius
-				"circle-color": "#FF0000", //color
-				"circle-opacity": 0.5, //opacity
-				}
-			});
-		});
-	}
+		}
 	}).catch(function(error){
 		console.log('de data word niet weergegeven ' + error.message);
 	})
-	console.log(localStorage.getItem('persons'));
 
 	

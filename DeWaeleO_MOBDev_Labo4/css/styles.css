@@ -62,12 +62,12 @@ body{font-family:Arial, Helvetica, sans-serif;}
 }
 .likedropzone{
     height:100vh;
-    width:50vh;
+    width:70vh;
     position: absolute;
 }
 .dislikedropzone{
     height:100vh;
-    width:50vh;
+    width:70vh;
     position: absolute;
     right:0%;
 }
